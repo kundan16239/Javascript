@@ -1,21 +1,21 @@
-let addButton = document.querySelector('button');
-let inputButton = document.querySelector('Input');
-let todoList = document.querySelector('div.todos');
-let count = 0;
-
-addButton.onclick = function() {
-    let inputTodo = inputButton.value;
-    if (inputTodo == "") {
-        alert("Please enter a task");
-    } else {
-        let item = document.createElement("p");
-        item.innerHTML = inputTodo
-        item.setAttribute("key", count);
-        todoList.append(item);
-        count = count + 1;
-        item.addEventListener("click", function() {
-            todoList.removeChild(item);
+const Completed = document.querySelector("#completed");
+const result = document.querySelector("#todos");
+const Uncompleted = document.querySelector("#uncompleted");
+const getCompletedData = function() {
+    fetch("https://jsonplaceholder.typicode.com/todos?completed=true")
+        .then((res) => res.json())
+        .then((data) => {
+            result.innerText = JSON.stringify(data, null, 2);
         })
-        inputButton.value = ""
-    }
-}
+        .catch((error) => console.log(error));
+};
+Completed.addEventListener("click", getCompletedData);
+const getUncompletedData = function() {
+    fetch("https://jsonplaceholder.typicode.com/todos?completed=false")
+        .then((res) => res.json())
+        .then((data) => {
+            result.innerText = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => console.log(error));
+};
+Uncompleted.addEventListener("click", getUncompletedData);
